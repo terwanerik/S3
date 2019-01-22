@@ -24,25 +24,25 @@ public extension S3 {
     // MARK: Get
     
     /// Retrieve file data from S3
-    public func get(file: LocationConvertible, headers: [String: String], on container: Container) throws -> Future<File.Response> {
+    public func get(file: LocationConvertible, headers: [String: String], on container: Container) throws -> Future<S3File.Response> {
         let builder = urlBuilder(for: container)
         let url = try builder.url(file: file)
         
         let headers = try signer.headers(for: .GET, urlString: url.absoluteString, headers: headers, payload: .none)
-        return try make(request: url, method: .GET, headers: headers, on: container).map(to: File.Response.self) { response in
+        return try make(request: url, method: .GET, headers: headers, on: container).map(to: S3File.Response.self) { response in
             try self.check(response)
             
             guard let data = response.http.body.data else {
                 throw Error.missingData
             }
             
-            let res = File.Response(data: data, bucket: file.bucket ?? self.defaultBucket, path: file.path, access: nil, mime: self.mimeType(forFileAtUrl: url))
+            let res = S3File.Response(data: data, bucket: file.bucket ?? self.defaultBucket, path: file.path, access: nil, mime: self.mimeType(forFileAtUrl: url))
             return res
         }
     }
     
     /// Retrieve file data from S3
-    public func get(file: LocationConvertible, on container: Container) throws -> EventLoopFuture<File.Response> {
+    public func get(file: LocationConvertible, on container: Container) throws -> EventLoopFuture<S3File.Response> {
         return try get(file: file, headers: [:], on: container)
     }
     

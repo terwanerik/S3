@@ -10,7 +10,7 @@ import Foundation
 
 
 /// File data
-public struct File {
+public struct S3File {
     
     /// File to be uploaded (PUT)
     public struct Upload: LocationConvertible {
