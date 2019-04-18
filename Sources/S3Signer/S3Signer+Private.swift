@@ -148,7 +148,6 @@ extension S3Signer {
         }
 
         if httpMethod == .PUT || httpMethod == .DELETE {
-            updatedHeaders["content-length"] = payload.size()
             if httpMethod == .PUT && url.pathExtension != "" {
                 updatedHeaders["content-type"] = (MediaType.fileExtension(url.pathExtension) ?? .plainText).description
             }

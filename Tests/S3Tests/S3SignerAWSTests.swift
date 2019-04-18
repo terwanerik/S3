@@ -96,9 +96,7 @@ class S3SignerAWSTests: BaseTestCase {
                                           payload: .bytes(randomBytesMessage),
                                           dates: overridenDate)
 
-        XCTAssertNotNil(headers["Content-Length"].first)
         XCTAssertNotNil(headers["Content-Type"].first)
-        XCTAssertEqual(headers["Content-Length"].first, Payload.bytes(randomBytesMessage).size())
         XCTAssertEqual(headers["Content-Type"].first, "text/plain")
     }
 
